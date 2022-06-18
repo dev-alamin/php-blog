@@ -5,6 +5,7 @@
     <div class="box round first grid">
         <h2> Dashbord</h2>
         <div class="block">
+            Hello world
             Welcome admin panel
         </div>
     </div>
