@@ -54,7 +54,21 @@
         ]
     ];
 
-foreach($car_holder as $car){
-    echo "<br><br> Another item: <br>";
-    echo $car['car']->getCar();
+/**
+
+Form data
+*/
+
+
+if(isset($_POST['submit'])){
+    
+    $name = isset( $_POST['name'] ) ? $_POST['name'] : '';
+    $email = isset( $_POST['email'] ) ? $_POST['email'] : '';
+    $selectoption = isset( $_POST['selectoption'] ) ? $_POST['selectoption'] : '';
+    $boolean = isset( $_POST['boolean'] ) ? $_POST['boolean'] : '';
+    $feedback = isset( $_POST['feedback'] ) ? $_POST['feedback'] : '';
+    
+    $all = $name . "<br>" . $email . "<br>" . $selectoption . "<br>" . $boolean . "<br>" . $feedback;
+    
+    print_r($all);
 }
