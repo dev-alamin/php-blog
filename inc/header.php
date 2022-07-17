@@ -11,7 +11,36 @@ $fm = new Format();
 <html>
 
 <head>
-	<title>Basic Website</title>
+	<?php
+
+	if (isset($_GET['pageid']) && $_GET['pageid'] !== NULL) :
+		$id = $_GET['pageid'];
+		$sql = "SELECT * FROM pages WHERE id = $id";
+		$result = $db->select($sql);
+
+		if ($result) :
+			while ($row = $result->fetch_assoc()) : ?>
+				<title><?php echo $row['title'] . ' - ' . TITLE; ?></title>
+		<?php endwhile;
+		endif;
+	elseif (isset($_GET['id']) && $_GET['id'] !== NULL) : ?>
+		<?php
+		$id = $_GET['id'];
+		$sql = "SELECT * FROM post WHERE id = $id";
+		$result = $db->select($sql);
+
+		if ($result) :
+			while ($row = $result->fetch_assoc()) : ?>
+				<title><?php echo $row['title'] . ' - ' . TITLE; ?></title>
+		<?php endwhile;
+		endif;
+	else : ?>
+		<title> <?php $fm->title(); ?> <?php echo TITLE; ?></title>
+	<?php
+	endif;
+	?>
+
+
 	<meta name="language" content="English">
 	<meta name="description" content="It is a website about education">
 	<meta name="keywords" content="blog,cms blog">
@@ -50,17 +79,26 @@ $fm = new Format();
 		<a href="#">
 			<div class="logo">
 				<img src="images/logo.png" alt="Logo" />
-				<h2>Website Title</h2>
+				<h2><?php echo TITLE; ?></h2>
 				<p>Our website description</p>
 			</div>
 		</a>
 		<div class="social clear">
-			<div class="icon clear">
-				<a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-google-plus"></i></a>
-			</div>
+			<?php
+			$sql = "SELECT * FROM social";
+			$result = $db->select($sql);
+
+			if ($result) :
+			?>
+				<div class="icon clear">
+					<?php while ($row = $result->fetch_assoc()) : ?>
+						<a href="<?php echo $row['fb']; ?>" target="_blank"><i class="fa fa-facebook"></i></a>
+						<a href="<?php echo $row['tt']; ?>" target="_blank"><i class="fa fa-twitter"></i></a>
+						<a href="<?php echo $row['ln']; ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
+						<a href="<?php echo $row['gp']; ?>" target="_blank"><i class="fa fa-google-plus"></i></a>
+					<?php endwhile; ?>
+				</div>
+			<?php endif; ?>
 			<div class="searchbtn clear">
 				<form action="search.php" method="GET">
 					<input type="text" name="search" placeholder="Search keyword..." />
@@ -70,9 +108,25 @@ $fm = new Format();
 		</div>
 	</div>
 	<div class="navsection templete">
+		<?php 
+		$path = $_SERVER['SCRIPT_FILENAME'];
+		$current_page = basename($path, '.php');
+		?>
 		<ul>
-			<li><a id="active" href="index.php">Home</a></li>
-			<li><a href="about.php">About</a></li>
-			<li><a href="contact.php">Contact</a></li>
+			<li><a <?php echo $current_page == 'index'  ? "id='active'" : 'id="#"' ?> href="index.php">Home</a></li>
+			<?php
+			$sql = "SELECT * FROM pages";
+			$result = $db->select($sql);
+
+			if ($result) :
+				while ($row = $result->fetch_assoc()) :	?>
+					<li><a <?php
+							if (isset($_GET['pageid']) && $_GET['pageid'] == $row['id']) :
+								echo 'id="active"';
+							endif;
+							?> href="page.php?pageid=<?php echo $row['id']; ?>"><?php echo $row['title']; ?></a></li>
+			<?php endwhile;
+			endif; ?>
+			<li><a <?php echo $current_page == 'contact'  ? "id='active'" : 'id="#"' ?>  href="contact.php">Contact</a></li>
 		</ul>
 	</div>

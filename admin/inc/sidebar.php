@@ -11,10 +11,21 @@
                     </ul>
                 </li>
 
-                <li><a class="menuitem">Update Pages</a>
+                <li><a class="menuitem">Pages</a>
                     <ul class="submenu">
-                        <li><a>About Us</a></li>
-                        <li><a>Contact Us</a></li>
+                        <li><a href="addpage.php">Add new page</a></li>
+                        
+
+                        <?php 
+                        $sql = "SELECT * FROM pages";
+                        $result = $db->select($sql);
+
+                        if($result):
+                            while($row = $result->fetch_assoc()): ?>
+                                <li><a href="page.php?pageid=<?php echo $row['id']; ?>"><?php echo $row['title']; ?></a></li>
+                           <?php endwhile;
+                        endif;
+                        ?>
                     </ul>
                 </li>
                 <li><a class="menuitem">Category Option</a>

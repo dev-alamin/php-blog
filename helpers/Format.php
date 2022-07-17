@@ -45,4 +45,18 @@ class Format
         $data = trim($data);
         return $data;
     }
+
+    public function title()
+    {   
+        $path = $_SERVER['SCRIPT_FILENAME'];
+        $title = basename($path, '.php');
+
+        if($title == 'contact'){
+            $title = 'contact';
+        }elseif($title == 'index'){
+            $title = 'home';
+        }
+
+        return $title = ucfirst($title);
+    }
 }

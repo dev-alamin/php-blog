@@ -1,4 +1,9 @@
 </div>
+<?php
+$sql = "SELECT copyright FROM blog_options";
+
+$result = $db->select($sql);
+?>
 <div class="footersection templete clear">
     <div class="footermenu clear">
         <ul>
@@ -8,7 +13,16 @@
             <li><a href="#">Privacy</a></li>
         </ul>
     </div>
-    <p>&copy; Copyright Training with live project.</p>
+
+    <?php
+    if ($result) :
+        while ($row = $result->fetch_assoc()) :
+    ?>
+            <p><?php echo $row['copyright']; ?></p>
+
+    <?php
+        endwhile;
+    endif; ?>
 </div>
 <div class="fixedicon clear">
     <a href="http://www.facebook.com"><img src="images/fb.png" alt="Facebook" /></a>

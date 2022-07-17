@@ -11,7 +11,6 @@ if (!isset($_GET['id']) || $_GET['id'] == NULL) {
 ?>
 <?php include 'inc/sidebar.php'; ?>
 
-
 <?php
 
 
