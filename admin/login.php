@@ -36,20 +36,22 @@ $db = new Database();
 
 				$sql = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
 				$result = $db->select($sql);
-				if ($result != false) {
+				if ($result !== false) {
 					$value = mysqli_fetch_array($result);
 					$row = mysqli_num_rows($result);
 
 					if ($row > 0) {
 						Session::set('login', true);
-						Session::set('username', $value['username']);
+						Session::set('userName', $value['username']);
+						Session::set('displayName', $value['name']);
 						Session::set('userID', $value['id']);
+						Session::set('userRole', $value['role']);
 						header('Location: index.php');
 					} else {
 						echo '<span style="color:red;">No result found</span>';
 					}
 				} else {
-					echo '<span style="color:red;">Username or password not match</span>';
+					echo '<span style="color:red;"> Username or password not match </span>';
 				}
 			}
 			?>

@@ -1,8 +1,8 @@
+<?php include '../lib/class.session.php'; ?>
+<?php Session::checkSession(); ?>
 <?php include '../config/config.php'; ?>
 <?php include '../lib/Database.php';
-include '../lib/class.session.php';
 include '../helpers/Format.php';
-Session::checkSession();
 
 $db = new Database();
 $fm = new Format();
@@ -75,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                     </div>
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
-                            <li>Hello Admin</li>
+                            <li>Hello, <?php echo ( Session::get('displayName') ? Session::get('displayName') : Session::get('userName') ); ?></li>
                             <li><a href="?action=logout">Logout</a></li>
                         </ul>
                     </div>
@@ -89,10 +89,29 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
         <div class="grid_12">
             <ul class="nav main">
                 <li class="ic-dashboard"><a href="index.php"><span>Dashboard</span></a> </li>
-                <li class="ic-form-style"><a href=""><span>User Profile</span></a></li>
+                <li class="ic-form-style"><a href="profile.php"><span>User Profile</span></a></li>
                 <li class="ic-typography"><a href="changepassword.php"><span>Change Password</span></a></li>
-                <li class="ic-grid-tables"><a href="inbox.php"><span>Inbox</span></a></li>
+                <li class="ic-grid-tables"><a href="inbox.php">
+                        <?php
+                        $sql = "SELECT * FROM contact WHERE status = '0'";
+                        $result = $db->select($sql);
+
+
+
+                        ?>
+                        <span>Inbox
+                            <?php
+                            if ($result) {
+                                $count = mysqli_num_rows($result);
+                                echo "(" . $count . ")";
+                            } else {
+                                echo '0';
+                            }
+                            ?></span>
+                    </a></li>
                 <li class="ic-charts"><a href="postlist.php"><span>Visit Website</span></a></li>
+                <li class="ic-charts"><a href="adduser.php"><span>Add User</span></a></li>
+                <li class="ic-charts"><a href="userlist.php"><span>User List</span></a></li>
             </ul>
         </div>
         <div class="clear">

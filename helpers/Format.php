@@ -8,7 +8,7 @@ class Format
 {
     // Format date
     public function formatDate($date){
-        return date('F j, Y, g:i a', strtotime($date));
+        return date('g:i a - F j, Y', strtotime($date));
     }
 
     // Shorten text for blog post in index page

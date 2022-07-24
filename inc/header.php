@@ -43,7 +43,23 @@ $fm = new Format();
 
 	<meta name="language" content="English">
 	<meta name="description" content="It is a website about education">
-	<meta name="keywords" content="blog,cms blog">
+	<?php
+	if (isset($_GET['id']) && $_GET['id'] !== NULL) :
+		$keywords = $_GET['id'];
+		$sql = "SELECT * FROM post WHERE id = $keywords";
+		$result = $db->select($sql);
+
+		if ($result) :
+			while ($row = $result->fetch_assoc()) : ?>
+				<meta name="keywords" content="<?php echo $row['tags'] . ' - ' . TITLE; ?>">
+			<?php endwhile;
+		else : ?>
+			<meta name="keywords" content="<?php echo KEYWORDS; ?>">
+	<?php
+		endif;
+	endif;
+	?>
+
 	<meta name="author" content="Delowar">
 	<link rel="stylesheet" href="font-awesome-4.5.0/css/font-awesome.css">
 	<link rel="stylesheet" href="css/nivo-slider.css" type="text/css" media="screen" />
@@ -108,7 +124,7 @@ $fm = new Format();
 		</div>
 	</div>
 	<div class="navsection templete">
-		<?php 
+		<?php
 		$path = $_SERVER['SCRIPT_FILENAME'];
 		$current_page = basename($path, '.php');
 		?>
@@ -127,6 +143,6 @@ $fm = new Format();
 							?> href="page.php?pageid=<?php echo $row['id']; ?>"><?php echo $row['title']; ?></a></li>
 			<?php endwhile;
 			endif; ?>
-			<li><a <?php echo $current_page == 'contact'  ? "id='active'" : 'id="#"' ?>  href="contact.php">Contact</a></li>
+			<li><a <?php echo $current_page == 'contact'  ? "id='active'" : 'id="#"' ?> href="contact.php">Contact</a></li>
 		</ul>
 	</div>
